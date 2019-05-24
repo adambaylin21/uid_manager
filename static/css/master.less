@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-weight: inherit;
+    list-style: none;
+    font-family: 'quicksandr';
+    ul {
+    	margin: 0;
+    }
+}
+
+@font-face {
+    font-family: 'quicksandr';
+    src: url('../fonts/Quicksand-Regular.ttf');
+}
+
+@xanh:#c3f4fd;
+@xxam:#24478f;
+@trang:#fff;
+@xam: #f5f6f7;
+@den: #283947;
+
+.fontr(@px) {
+	font-family: quicksandr;
+	font-size: @px;
+	color: @den;
+}
+
+.flex_uid {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+
+.border {
+	border-radius: 6px;
+}
+
+.index {
+	margin-top: 10px;
+	h1 {
+		.fontr(22px);
+		border-bottom: 2px solid @xxam;
+		display: inline-block;
+		padding: 0 0 5px 0;
+	}
+
+	.log_uid {
+		margin-top: 30px;
+		textarea {
+			.border;
+		}
+	}
+}
+.control_lv1 {
+	ul {
+		.flex_uid;
+		margin-top: 20px;
+		li {
+			text-transform: uppercase;
+			margin-right: 25px;
+			border: 1px solid @xam;
+			padding: 5px 10px;
+			cursor: pointer;
+			.border;
+			&:hover {
+				background-color: @xanh;
+				color: @xxam;
+			}
+		}
+		.active {
+			background-color: @xanh;
+			color: @xxam;
+		}
+	}
+
+}
+.status_uid {
+	margin-top: 30px;
+}

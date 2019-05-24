@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %} Home Page {% endblock %}
+
+{% block body %}
+<div class="body_content">
+	<div class="grid-container">
+		<div class="grid-x grid-margin-x">
+			<div class="cell small-12">
+			<div class="index">
+			<h1>UID Manager</h1>
+			
+			<div class="control_lv1">
+			<ul>
+				<li id='add_nickfb' >Add UID</li>
+				<li>Delete All</li>
+			</ul>
+			</div>
+			<div class="status_uid">
+			<ul>
+				<li>Total UID:</li>
+				<li>Last Update:</li>
+				<li>Status Nick:</li>
+			</ul>	
+			</div>
+
+			<div class="grid-x grid-margin-x">
+			<div class="cell small-8">
+			<div class="log_uid">
+			<textarea id="log_uid" rows="5" cols="25"></textarea>
+			</div>
+			</div>
+			</div>
+
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
