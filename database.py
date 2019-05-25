@@ -31,6 +31,25 @@ class uid_manager(Base):
         session.delete(data)
         session.commit()
 
+    def del_all(self):
+        data = session.query(uid_manager).delete()
+        session.commit()
+
+# Database Control
+def db_master(**kwargs):
+    db_control = {}
+
+    for key, value in kwargs.items():
+        db_control[key] = value
+
+    if db_control['mode'] == 'add_uid':
+        uid_manager().add_uid(db_control['uid'])
+
+    if db_control['mode'] == 'del_all':
+        uid_manager().del_all()        
+
+
+
 if __name__ == '__main__':
-    # pass
-    uid_manager().add_uid('123')
+    pass
+    # db_master(mode='add_uid',uid='123456')
