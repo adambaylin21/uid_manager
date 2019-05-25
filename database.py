@@ -22,9 +22,8 @@ class uid_manager(Base):
         session.add(uid_manager(uid=uid))
         session.commit()
 
-    def query_uid(self):
-        data = session.query(uid_manager).all()
-        return data
+    def query_uid(self, id):
+        return session.query(uid_manager).filter(uid_manager.id == id).first()
 
     def del_uid(self, uid):
     	data = session.query(uid_manager).filter(uid_manager.uid == uid).first()
@@ -34,6 +33,11 @@ class uid_manager(Base):
     def del_all(self):
         data = session.query(uid_manager).delete()
         session.commit()
+
+    def max_uid(self):
+        return session.query(func.max(uid_manager.id)).one()
+    def min_uid(self):
+        return session.query(func.min(uid_manager.id)).one()
 
 # Database Control
 def db_master(**kwargs):
@@ -46,8 +50,27 @@ def db_master(**kwargs):
         uid_manager().add_uid(db_control['uid'])
 
     if db_control['mode'] == 'del_all':
-        uid_manager().del_all()        
+        uid_manager().del_all()
 
+    if db_control['mode'] == 'max_uid':
+        return uid_manager().max_uid()[0]
+    if db_control['mode'] == 'min_uid':
+        return uid_manager().min_uid()[0]
+
+    if db_control['mode'] == 'query_uid':
+        return uid_manager().query_uid(db_control['idx'])
+
+    if db_control['mode'] == 'del_uid':
+        uid_manager().del_uid(db_control['uid'])
+
+# Get & Del Uid
+def get_uid():
+    i = db_master(mode='min_uid')
+    a = db_master(mode='query_uid', idx = i)
+    b = a.uid
+    db_master (mode='del_uid', uid = b)
+    return b
+    # ...
 
 
 if __name__ == '__main__':

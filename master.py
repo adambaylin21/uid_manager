@@ -3,6 +3,7 @@
 from flask import Flask, request, flash, url_for, \
     redirect, render_template, session, jsonify
 from database import db_master
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ahihidocho'
@@ -28,6 +29,22 @@ def do_logic(mode):
 		db_master(mode='del_all')
 		i = '<p id="total_add">Had delete all uid to Database</p>'
 		return jsonify({'data': i})
+
+	if mode == 'check_status':
+		now = datetime.datetime.now()
+		a, b = db_master(mode='max_uid'), db_master(mode='min_uid')
+		try:
+			c = int(a) - int(b) + 1
+		except:
+			c = 0
+		d = now.strftime("%Y-%m-%d | %H:%M:%S")
+		e = """<div class="status_uid">
+			<ul id='status_main'>
+				<li>Total UID: {}</li>
+				<li>Last Update: {}</li>
+				<li>Status Nick:</li>
+			</ul></div>""".format(c, d)
+		return e
 
 	return ''
 

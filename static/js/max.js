@@ -33,3 +33,20 @@ $(document).on('click', ".del_all", function () {
       });
 
 });
+
+// Create request
+var request = new XMLHttpRequest();
+var interval = setInterval('update_status()',10000);
+
+function update_status() {
+if ( window.location.pathname == '/' ) {
+request.open('GET', '/logic/check_status', true);
+request.send(null);
+
+request.onreadystatechange = function() {
+    if (request.readyState == XMLHttpRequest.DONE) {
+        $('.status_uid').replaceWith(request.responseText);
+    }}
+}
+}
+
