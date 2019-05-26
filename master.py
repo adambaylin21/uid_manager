@@ -46,6 +46,9 @@ def do_logic(mode):
 			</ul></div>""".format(c, d)
 		return e
 
+	if mode == 'get_uid':
+		return str(db_master(mode='get_uid'))
+
 	return ''
 
 if __name__ == '__main__':

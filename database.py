@@ -63,6 +63,9 @@ def db_master(**kwargs):
     if db_control['mode'] == 'del_uid':
         uid_manager().del_uid(db_control['uid'])
 
+    if db_control['mode'] == 'get_uid':
+        return get_uid()        
+
 # Get & Del Uid
 def get_uid():
     i = db_master(mode='min_uid')
@@ -71,7 +74,6 @@ def get_uid():
     db_master (mode='del_uid', uid = b)
     return b
     # ...
-
 
 if __name__ == '__main__':
     pass
