@@ -42,12 +42,21 @@ def do_logic(mode):
 			<ul id='status_main'>
 				<li>Total UID: {}</li>
 				<li>Last Update: {}</li>
-				<li>Status Nick:</li>
+				<li>Nick Facebook:</li>
 			</ul></div>""".format(c, d)
 		return e
 
 	if mode == 'get_uid':
 		return str(db_master(mode='get_uid'))
+
+	if mode == 'add_cookies':
+		cookies = request.form['add_cookies']
+		cookies = eval(cookies)
+		db_master(mode=mode,cookies=cookies)
+		i = '<p id="total_add">Had add Cookies to Database </p>'
+		return jsonify({'data': i})
+
+
 
 	return ''
 

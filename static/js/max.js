@@ -50,3 +50,22 @@ request.onreadystatechange = function() {
 }
 }
 
+$(document).on('click', ".add_nickfb", function () {
+  var cookies = $('#log_uid').val()
+    $("#log_uid").val("");
+    $.ajax({
+        type: 'post',
+        url: '/logic/add_cookies',
+        data: {add_cookies: JSON.stringify(cookies)},
+        success: function (resp) {
+            $(".status_logic").css("display", "inline-block");
+            $('#total_add').replaceWith(resp.data);
+            setTimeout(
+              function() 
+              {
+                $(".status_logic").css("display", "none");
+              }, 5000);
+            }
+      });
+
+});
