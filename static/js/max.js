@@ -44,8 +44,15 @@ request.open('GET', '/logic/check_status', true);
 request.send(null);
 
 request.onreadystatechange = function() {
-    if (request.readyState == XMLHttpRequest.DONE) {
+    if (request.readyState == 4 && request.status == 200) {
         $('.status_uid').replaceWith(request.responseText);
+        $.ajax({
+          url: "/logic/qall_cookies",
+          type: "GET",
+          success: function (resp) {
+              $('.reload_nick').replaceWith(resp.data);
+          }
+        });
     }}
 }
 }
