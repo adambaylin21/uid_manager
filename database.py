@@ -48,6 +48,7 @@ class acc_manager(Base):
     name = Column(String(50))
     uid = Column(String(50))
     cookies = Column(String(50))
+    last_activate = Column(String(50))
 
     def add_cookies(self, name, uid, cookies):
         session.add(acc_manager(name=name, uid=uid, cookies=cookies))
@@ -55,6 +56,11 @@ class acc_manager(Base):
 
     def query_all(self):
         return session.query(acc_manager).all()
+
+    def del_cookies(self, uid):
+        data = session.query(acc_manager).filter(acc_manager.uid == uid).first()
+        session.delete(data)
+        session.commit()
 
 # Database Control
 def db_master(**kwargs):
@@ -89,6 +95,10 @@ def db_master(**kwargs):
     if db_control['mode'] == 'qall_cookies':
         return acc_manager().query_all()
 
+    if db_control['mode'] == 'del_cookies':
+        acc_manager().del_cookies(db_control['uid'])
+
+
 # Get & Del Uid
 def get_uid():
     i = db_master(mode='min_uid')
@@ -96,7 +106,6 @@ def get_uid():
     b = a.uid
     db_master (mode='del_uid', uid = b)
     return b
-    # ...
 
 # Read cookies Facebook
 def read_cookies(cookie):

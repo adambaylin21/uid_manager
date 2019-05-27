@@ -10,7 +10,8 @@ app.config['SECRET_KEY'] = 'ahihidocho'
 
 @app.route('/')
 def homepage():
-	return render_template('home.html')
+	a = db_master(mode='qall_cookies')
+	return render_template('home.html', nick = a)
 
 @app.route('/logic/<mode>', methods=['GET', 'POST'])
 def do_logic(mode):
@@ -38,12 +39,13 @@ def do_logic(mode):
 		except:
 			c = 0
 		d = now.strftime("%Y-%m-%d | %H:%M:%S")
+		f = len(db_master(mode='qall_cookies'))
 		e = """<div class="status_uid">
 			<ul id='status_main'>
 				<li>Total UID: {}</li>
 				<li>Last Update: {}</li>
-				<li>Nick Facebook:</li>
-			</ul></div>""".format(c, d)
+				<li>Nick Facebook: {}</li>
+			</ul></div>""".format(c, d, f)
 		return e
 
 	if mode == 'get_uid':
@@ -56,7 +58,14 @@ def do_logic(mode):
 		i = '<p id="total_add">Had add Cookies to Database </p>'
 		return jsonify({'data': i})
 
+	if mode == 'qall_cookies':
+		a = db_master(mode='qall_cookies')
+		return jsonify({'data': render_template('nick.html',nick = a)})
 
+	if mode == 'del_nick':
+		uid = request.form['del_nick']
+		uid = eval(uid)
+		db_master(mode='del_cookies',uid=uid)
 
 	return ''
 

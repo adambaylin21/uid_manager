@@ -58,6 +58,13 @@ $(document).on('click', ".add_nickfb", function () {
         url: '/logic/add_cookies',
         data: {add_cookies: JSON.stringify(cookies)},
         success: function (resp) {
+            $.ajax({
+                url: "/logic/qall_cookies",
+                type: "GET",
+                success: function (resp) {
+                    $('.reload_nick').replaceWith(resp.data);
+                }
+                });
             $(".status_logic").css("display", "inline-block");
             $('#total_add').replaceWith(resp.data);
             setTimeout(
@@ -65,6 +72,25 @@ $(document).on('click', ".add_nickfb", function () {
               {
                 $(".status_logic").css("display", "none");
               }, 5000);
+            }
+      });
+
+});
+
+$(document).on('click', ".delete_cookies", function () {
+  var uid_nick = $(this).attr("id")
+    $.ajax({
+        type: 'post',
+        url: '/logic/del_nick',
+        data: {del_nick: JSON.stringify(uid_nick)},
+        success: function (resp) {
+                $.ajax({
+                url: "/logic/qall_cookies",
+                type: "GET",
+                success: function (resp) {
+                    $('.reload_nick').replaceWith(resp.data);
+                }
+                });
             }
       });
 

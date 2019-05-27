@@ -1,0 +1,15 @@
+<div class="reload_nick">
+<div class="grid-x grid-margin-x">
+	{% for user in nick %}
+	<div class="cell small-3">
+		<div class="nick_facebook">
+			<ul>
+			<li>Fb: {{ user.name }}</li>
+			<li>Last Activate: {{ user.last_activate }}</li>
+			</ul>
+			<div id='{{ user.uid }}' class="delete_cookies"></div>
+		</div>
+	</div>
+	{% endfor %}
+	</div>
+</div>
