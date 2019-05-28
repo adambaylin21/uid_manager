@@ -23,19 +23,15 @@ class uid_manager(Base):
     def add_uid(self, uid):
         session.add(uid_manager(uid=uid))
         session.commit()
-
     def query_uid(self, id):
         return session.query(uid_manager).filter(uid_manager.id == id).first()
-
     def del_uid(self, uid):
     	data = session.query(uid_manager).filter(uid_manager.uid == uid).first()
         session.delete(data)
         session.commit()
-
     def del_all(self):
         data = session.query(uid_manager).delete()
         session.commit()
-
     def max_uid(self):
         return session.query(func.max(uid_manager.id)).one()
     def min_uid(self):
@@ -53,13 +49,15 @@ class acc_manager(Base):
     def add_cookies(self, name, uid, cookies):
         session.add(acc_manager(name=name, uid=uid, cookies=cookies))
         session.commit()
-
     def query_all(self):
         return session.query(acc_manager).all()
-
     def del_cookies(self, uid):
         data = session.query(acc_manager).filter(acc_manager.uid == uid).first()
         session.delete(data)
+        session.commit()
+    def yes_itlive(self, uid, time):
+        nick = session.query(acc_manager).filter(acc_manager.uid == uid).first()
+        nick.last_activate = time
         session.commit()
 
 # Database Control
@@ -68,36 +66,28 @@ def db_master(**kwargs):
 
     for key, value in kwargs.items():
         db_control[key] = value
-
     if db_control['mode'] == 'add_uid':
         uid_manager().add_uid(db_control['uid'])
-
     if db_control['mode'] == 'del_all':
         uid_manager().del_all()
-
     if db_control['mode'] == 'max_uid':
         return uid_manager().max_uid()[0]
     if db_control['mode'] == 'min_uid':
         return uid_manager().min_uid()[0]
-
     if db_control['mode'] == 'query_uid':
         return uid_manager().query_uid(db_control['idx'])
-
     if db_control['mode'] == 'del_uid':
         uid_manager().del_uid(db_control['uid'])
-
     if db_control['mode'] == 'get_uid':
         return get_uid()
-
     if db_control['mode'] == 'add_cookies':
         read_cookies(db_control['cookies'])
-
     if db_control['mode'] == 'qall_cookies':
         return acc_manager().query_all()
-
     if db_control['mode'] == 'del_cookies':
         acc_manager().del_cookies(db_control['uid'])
-
+    if db_control['mode'] == 'live_cookies':
+        acc_manager().yes_itlive(db_control['uid'], db_control['time'])
 
 # Get & Del Uid
 def get_uid():

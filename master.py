@@ -13,6 +13,13 @@ def homepage():
 	a = db_master(mode='qall_cookies')
 	return render_template('home.html', nick = a)
 
+@app.route('/nick/<uid>', methods=['GET', 'POST'])
+def do_nick(uid):
+	now = datetime.datetime.now()
+	a = now.strftime("%d/%m %H:%M:%S")
+	db_master(mode='live_cookies',uid=uid, time=a)
+	return ''
+
 @app.route('/logic/<mode>', methods=['GET', 'POST'])
 def do_logic(mode):
 	if mode == 'add_uid':
@@ -38,7 +45,7 @@ def do_logic(mode):
 			c = int(a) - int(b) + 1
 		except:
 			c = 0
-		d = now.strftime("%Y-%m-%d | %H:%M:%S")
+		d = now.strftime("%H:%M:%S | %d-%m-%Y")
 		f = len(db_master(mode='qall_cookies'))
 		e = """<div class="status_uid">
 			<ul id='status_main'>
