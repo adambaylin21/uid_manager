@@ -59,6 +59,8 @@ class acc_manager(Base):
         nick = session.query(acc_manager).filter(acc_manager.uid == uid).first()
         nick.last_activate = time
         session.commit()
+    def query_cookies(self, uid):
+        return session.query(acc_manager).filter(acc_manager.uid == uid).first()
 
 # Database Control
 def db_master(**kwargs):
@@ -88,6 +90,8 @@ def db_master(**kwargs):
         acc_manager().del_cookies(db_control['uid'])
     if db_control['mode'] == 'live_cookies':
         acc_manager().yes_itlive(db_control['uid'], db_control['time'])
+    if db_control['mode'] == 'query_cookies':
+        return acc_manager().query_cookies(db_control['uid'])
 
 # Get & Del Uid
 def get_uid():
