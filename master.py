@@ -19,6 +19,11 @@ def do_nick(uid):
     a = now.strftime("%d/%m %H:%M:%S")
     db_master(mode='live_cookies',uid=uid, time=a)
     return ''
+    
+@app.route('/check/<uid>', methods=['GET', 'POST'])
+def check_time(uid):
+    a = db_master(mode='die_check', uid=uid)
+    return str(a)
 
 @app.route('/cookies/<uid>', methods=['GET', 'POST'])
 def get_cookies(uid):

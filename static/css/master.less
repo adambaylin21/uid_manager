@@ -33,8 +33,14 @@
     flex-flow: row wrap;
 }
 
+.shadow {
+	-webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.15);
+	-moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.15);
+	box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.15);
+}
+
 .border {
-	border-radius: 6px;
+	border-radius: 8px;
 }
 
 .index {
@@ -47,7 +53,7 @@
 	}
 
 	.log_uid {
-		margin-top: 30px;
+		margin-top: 45px;
 		textarea {
 			.border;
 		}
@@ -60,10 +66,10 @@
 		li {
 			text-transform: uppercase;
 			margin-right: 25px;
-			border: 1px solid @xam;
 			padding: 5px 10px;
 			cursor: pointer;
 			.border;
+			.shadow;
 			&:hover {
 				background-color: @xanh;
 				color: @xxam;
@@ -96,8 +102,8 @@
 	}
 }
 .nick_facebook {
-	border: 2px solid @xam;
 	.border;
+	.shadow;
 	padding: 10px 5px;
 	position: relative;
 	.delete_cookies {
@@ -109,5 +115,13 @@
 		top: 10px;
 		right: 10px;
 		cursor: pointer;
+	}
+	&:hover {
+		color:@xxam;
+	}
+}
+.second_fb {
+	&:nth-child(n+5) {
+		margin-top: 30px;
 	}
 }

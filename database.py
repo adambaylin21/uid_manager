@@ -5,6 +5,7 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import func
+import datetime
 
 db_name = 'master.db'
 engine = create_engine('sqlite:///module/{}?check_same_thread=False'.format(db_name))
@@ -61,6 +62,9 @@ class acc_manager(Base):
         session.commit()
     def query_cookies(self, uid):
         return session.query(acc_manager).filter(acc_manager.uid == uid).first()
+    def what_last(self, uid):
+        nick = session.query(acc_manager).filter(acc_manager.uid == uid).first()
+        return nick.last_activate
 
 # Database Control
 def db_master(**kwargs):
@@ -92,6 +96,9 @@ def db_master(**kwargs):
         acc_manager().yes_itlive(db_control['uid'], db_control['time'])
     if db_control['mode'] == 'query_cookies':
         return acc_manager().query_cookies(db_control['uid'])
+    if db_control['mode'] == 'die_check':
+        a = acc_manager().what_last(db_control['uid'])
+        return ss_time(a)
 
 # Get & Del Uid
 def get_uid():
@@ -110,8 +117,31 @@ def read_cookies(cookie):
     e = json.loads(response.content)
     acc_manager().add_cookies(name=e['name'], uid=e['id'], cookies=cookie)
 
+# Read Time
+def return_time(str_time):
+    a = str_time
+    a = u''.join(a).encode('utf-8').strip()
+    a = a.split()[-1]
+    a = a.split(":")
+    return datetime.time(int(a[0]),int(a[1]),int(a[2]))
+
+def ss_time(time):
+    a = return_time(time)
+    now = datetime.datetime.now()
+    b = now.strftime("%d/%m %H:%M:%S")
+    b = return_time(b)
+    c = (datetime.datetime.combine(datetime.date(1, 1, 1), a) + datetime.timedelta(minutes=15)).time()
+    if c > b:
+        return True
+    if c < b:
+        return False
+
 if __name__ == '__main__':
     pass
     # db_master(mode='add_uid',uid='123456')
     # a = db_master(mode='qall_cookies')
     # print (a)
+
+    
+    
+
