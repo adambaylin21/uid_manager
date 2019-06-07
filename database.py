@@ -119,17 +119,32 @@ def read_cookies(cookie):
 
 # Read Time
 def return_time(str_time):
-    a = str_time
-    a = u''.join(a).encode('utf-8').strip()
+    a = u''.join(str_time).encode('utf-8').strip()
     a = a.split()[-1]
     a = a.split(":")
     return datetime.time(int(a[0]),int(a[1]),int(a[2]))
 
-def ss_time(time):
-    a = return_time(time)
+def return_date(str_time):
+    a = u''.join(str_time).encode('utf-8').strip()
+    a = a.split()[0]
+    a = a.split("/")
+    return datetime.date(1,int(a[0]),int(a[1]))
+
+def ss_date(date):
     now = datetime.datetime.now()
     b = now.strftime("%d/%m %H:%M:%S")
-    b = return_time(b)
+    a, b = return_date(date),return_date(b)
+    print (a)
+    print (b)
+    if a < b:
+        print ('False')
+    if a == b:
+        print ('True')
+
+def ss_time(time): 
+    now = datetime.datetime.now()
+    b = now.strftime("%d/%m %H:%M:%S")
+    a, b = return_time(time), return_time(b)
     c = (datetime.datetime.combine(datetime.date(1, 1, 1), a) + datetime.timedelta(minutes=15)).time()
     if c > b:
         return True
@@ -138,9 +153,9 @@ def ss_time(time):
 
 if __name__ == '__main__':
     pass
-    # db_master(mode='add_uid',uid='123456')
-    # a = db_master(mode='qall_cookies')
-    # print (a)
+    # 100032075779910
+    a = acc_manager().what_last('100032075779910')
+    ss_date(a)
 
     
     
