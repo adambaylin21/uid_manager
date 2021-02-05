@@ -13,7 +13,9 @@ Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
 
-token = 'EAACW5Fg5N2IBAPMGoJDi3OdZBzw5RtvJ0FovwyIFH3BAmxgpNPU0LBkBpzWtE58VGrSFpyA9AeOHvrZC8i8MT8yNOcFWubajuEl3NGs5LDqh8B2CXx1pZCLhqV5ZAfXZBDG0uj8vDe6uDtq5OGqLDJMnpuEZBC3V0ZB8vPaiVokR6I7G9RuAZAsJ8Kzkzfp6yC4ZD'
+token = 'EAAGNO4a7r2wBAHZCQwqk6wIwbtKm7ev4w4RV1DvSOOFskRFtj33iOwcY20pFyrUnpIln8y1dTDAvzL4YAFCs76dRqJHXdFXGYo2CN2IRUkoKcEeLocTbq8B1U9DhZA4Hpzp0wAkAeywZAvK05xZAbq8e1tCDiCn9vyam0ZBvSXEdvMAsKrdyq2w3dZBUYfvZBYZD'
+false = False
+true = True
 
 class uid_manager(Base):
     __tablename__ = 'uid_facebook'
@@ -111,7 +113,7 @@ def get_uid():
 # Read cookies Facebook
 def read_cookies(cookie):
     c = json.loads(cookie)
-    c = c[1]
+    c = c[0]
     d = c['value']
     response = requests.get('https://graph.facebook.com/{}?fields=id,name&access_token={}'.format(d,token))
     e = json.loads(response.content)
