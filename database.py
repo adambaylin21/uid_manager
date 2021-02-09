@@ -13,7 +13,6 @@ Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
 
-token = 'EAAGNO4a7r2wBAHZCQwqk6wIwbtKm7ev4w4RV1DvSOOFskRFtj33iOwcY20pFyrUnpIln8y1dTDAvzL4YAFCs76dRqJHXdFXGYo2CN2IRUkoKcEeLocTbq8B1U9DhZA4Hpzp0wAkAeywZAvK05xZAbq8e1tCDiCn9vyam0ZBvSXEdvMAsKrdyq2w3dZBUYfvZBYZD'
 false = False
 true = True
 
@@ -32,6 +31,7 @@ class uid_manager(Base):
     	data = session.query(uid_manager).filter(uid_manager.uid == uid).first()
         session.delete(data)
         session.commit()
+
     def del_all(self):
         data = session.query(uid_manager).delete()
         session.commit()
@@ -58,6 +58,7 @@ class acc_manager(Base):
         data = session.query(acc_manager).filter(acc_manager.uid == uid).first()
         session.delete(data)
         session.commit()
+
     def yes_itlive(self, uid, time):
         nick = session.query(acc_manager).filter(acc_manager.uid == uid).first()
         nick.last_activate = time
@@ -68,39 +69,71 @@ class acc_manager(Base):
         nick = session.query(acc_manager).filter(acc_manager.uid == uid).first()
         return nick.last_activate
 
+class token_manager(Base):
+    __tablename__ = 'token'
+
+    id = Column(Integer, primary_key=True)
+    token = Column(String(50))
+    
+    def add_token(self, token):
+        # session.add(token_manager(token=token))
+        x = session.query(token_manager).filter(token_manager.id == 1).first()
+        x.token = token
+        session.commit()
+    def check_token(self):
+        return session.query(token_manager).filter(token_manager.id == 1).first()
+
+
 # Database Control
 def db_master(**kwargs):
     db_control = {}
-
     for key, value in kwargs.items():
         db_control[key] = value
-    if db_control['mode'] == 'add_uid':
+
+    mode = db_control['mode']
+    if mode == 'add_uid':
         uid_manager().add_uid(db_control['uid'])
-    if db_control['mode'] == 'del_all':
+    if mode == 'del_all':
         uid_manager().del_all()
-    if db_control['mode'] == 'max_uid':
+    if mode == 'max_uid':
         return uid_manager().max_uid()[0]
-    if db_control['mode'] == 'min_uid':
+    if mode == 'min_uid':
         return uid_manager().min_uid()[0]
-    if db_control['mode'] == 'query_uid':
+
+    if mode == 'query_uid':
         return uid_manager().query_uid(db_control['idx'])
-    if db_control['mode'] == 'del_uid':
+    if mode == 'del_uid':
         uid_manager().del_uid(db_control['uid'])
-    if db_control['mode'] == 'get_uid':
+    if mode == 'get_uid':
         return get_uid()
-    if db_control['mode'] == 'add_cookies':
+    if mode == 'add_cookies':
         read_cookies(db_control['cookies'])
-    if db_control['mode'] == 'qall_cookies':
+
+    if mode == 'qall_cookies':
         return acc_manager().query_all()
-    if db_control['mode'] == 'del_cookies':
+    if mode == 'del_cookies':
         acc_manager().del_cookies(db_control['uid'])
-    if db_control['mode'] == 'live_cookies':
+    if mode == 'live_cookies':
         acc_manager().yes_itlive(db_control['uid'], db_control['time'])
-    if db_control['mode'] == 'query_cookies':
+    
+    if mode == 'query_cookies':
         return acc_manager().query_cookies(db_control['uid'])
-    if db_control['mode'] == 'die_check':
+    if mode == 'die_check':
         a = acc_manager().what_last(db_control['uid'])
         return ss_time(a)
+
+    if mode == 'add_token':
+        token_manager().add_token(db_control['token'])
+    if mode == 'check_token':
+        a = token_manager().check_token()
+        b = verifytoken(a.token)
+        return b
+        
+# Verify Token
+def verifytoken(token):
+    response = requests.get('https://graph.facebook.com/me?fields=id,name&access_token={}'.format(token))
+    a = json.loads(response.content)
+    return True if 'id' in a else False
 
 # Get & Del Uid
 def get_uid():
@@ -156,8 +189,12 @@ def ss_time(time):
 if __name__ == '__main__':
     pass
     # 100032075779910
-    a = acc_manager().what_last('100032075779910')
-    ss_date(a)
+    # a = acc_manager().what_last('100032075779910')
+    # ss_date(a)
+    token = 'XEAAGNO4a7r2wBAHZCQwqk6wIwbtKm7ev4w4RV1DvSOOFskRFtj33iOwcY20pFyrUnpIln8y1dTDAvzL4YAFCs76dRqJHXdFXGYo2CN2IRUkoKcEeLocTbq8B1U9DhZA4Hpzp0wAkAeywZAvK05xZAbq8e1tCDiCn9vyam0ZBvSXEdvMAsKrdyq2w3dZBUYfvZBYZD'
+    db_master(mode='add_token',token=token)
+
+
 
     
     

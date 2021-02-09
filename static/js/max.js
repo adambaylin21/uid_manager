@@ -1,5 +1,5 @@
 $(document).on('click', ".add_uid", function () {
-	var uid = $('#log_uid').val()
+	let uid = $('#log_uid').val()
     $("#log_uid").val("");
     $.ajax({
         type: 'post',
@@ -36,7 +36,7 @@ $(document).on('click', ".del_all", function () {
 
 // Create request
 var request = new XMLHttpRequest();
-var interval = setInterval('update_status()',10000);
+var interval = setInterval('update_status()',20000);
 
 function update_status() {
 if ( window.location.pathname == '/' ) {
@@ -58,7 +58,7 @@ request.onreadystatechange = function() {
 }
 
 $(document).on('click', ".add_nickfb", function () {
-  var cookies = $('#log_uid').val()
+  let cookies = $('#log_uid').val()
     $("#log_uid").val("");
     $.ajax({
         type: 'post',
@@ -85,7 +85,7 @@ $(document).on('click', ".add_nickfb", function () {
 });
 
 $(document).on('click', ".delete_cookies", function () {
-  var uid_nick = $(this).attr("id")
+  let uid_nick = $(this).attr("id")
     $.ajax({
         type: 'post',
         url: '/logic/del_nick',
@@ -101,4 +101,28 @@ $(document).on('click', ".delete_cookies", function () {
             }
       });
 
+});
+
+$(document).on('click',".checktoken", function(){
+     $.ajax({
+        type: 'GET',
+        url: '/logic/check_token',
+        success: function (resp) {
+            $('#status_token').replaceWith(resp.data);
+        }
+    });
+});
+
+$(document).on('click',".update_token", function(){
+    let token = $('#log_uid').val();
+    $.ajax({
+        type: 'post',
+        url: '/logic/update_token',
+        data: {token: token},
+        success: function (resp) {
+            if (resp == 'Done') {
+                document.getElementById("log_uid").value = ""; 
+            }
+        }
+    });
 });

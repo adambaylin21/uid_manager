@@ -6,7 +6,7 @@ from database import db_master
 import datetime
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'ahihidocho'
+app.config['SECRET_KEY'] = 'adambaylin'
 
 @app.route('/')
 def homepage():
@@ -93,6 +93,19 @@ def do_logic(mode):
             d['name'] = c.name
             b.append(d)
         return str(b)
+
+    if mode == 'update_token':
+        token = request.form['token']
+        db_master(mode='add_token',token=token)
+        return 'Done'
+
+    if mode == 'check_token':
+        a = db_master(mode='check_token')
+        if a:
+            i = '<div id="status_token"><div class="live"></div></div>'
+        else:
+            i = '<div id="status_token"><div class="die"></div></div>'
+        return jsonify({'data': i})
 
     return ''
 

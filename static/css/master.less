@@ -14,10 +14,10 @@
     src: url('../fonts/Quicksand-Regular.ttf');
 }
 
-@xanh:#c3f4fd;
+@xanh:#f2f2f2;
 @xxam:#24478f;
 @trang:#fff;
-@xam: #f5f6f7;
+@xam: #f2f2f2;
 @den: #283947;
 
 .fontr(@px) {
@@ -34,13 +34,12 @@
 }
 
 .shadow {
-	-webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.15);
-	-moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.15);
-	box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.15);
+
 }
 
 .border {
-	border-radius: 8px;
+	border-radius: 6px;
+	border: 1px solid #464646;
 }
 
 .index {
@@ -50,6 +49,7 @@
 		border-bottom: 2px solid @xxam;
 		display: inline-block;
 		padding: 0 0 5px 0;
+		margin-top: 20px;
 	}
 
 	.log_uid {
@@ -65,6 +65,7 @@
 		.flex_uid;
 		margin-top: 20px;
 		li {
+			font-size: 16px;
 			text-transform: uppercase;
 			margin-right: 25px;
 			padding: 5px 10px;
@@ -125,4 +126,34 @@
 	&:nth-child(n+5) {
 		margin-top: 30px;
 	}
+}
+
+.token_status {
+	.checktoken {
+		padding: 5px 10px;
+		border: 1px solid #464646;
+		border-radius: 6px;
+		display: inline-block;
+		&:hover {
+			cursor: pointer;
+			background: #f2f2f2;
+		}
+	}
+	#status_token {
+		position: relative;
+		display: inline-block;
+		top: 4px;
+	}
+	.live, .die {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background-color: #04BF45;
+		margin: 0px 10px 0 0;
+		
+	}
+	.die {
+		background-color: #F23005;
+	}
+
 }
