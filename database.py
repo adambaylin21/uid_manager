@@ -28,7 +28,7 @@ class uid_manager(Base):
     def query_uid(self, id):
         return session.query(uid_manager).filter(uid_manager.id == id).first()
     def del_uid(self, uid):
-    	data = session.query(uid_manager).filter(uid_manager.uid == uid).first()
+        data = session.query(uid_manager).filter(uid_manager.uid == uid).first()
         session.delete(data)
         session.commit()
 
