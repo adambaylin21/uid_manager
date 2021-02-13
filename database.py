@@ -128,6 +128,9 @@ def db_master(**kwargs):
         a = token_manager().check_token()
         b = verifytoken(a.token)
         return b
+    if mode == 'get_token':
+        a = token_manager().check_token()
+        return a.token
         
 # Verify Token
 def verifytoken(token):
@@ -145,6 +148,7 @@ def get_uid():
 
 # Read cookies Facebook
 def read_cookies(cookie):
+    token = db_master(mode='get_token')
     c = json.loads(cookie)
     c = c[0]
     d = c['value']
